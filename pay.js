@@ -42,7 +42,7 @@ dotenv.config();
                 process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
                 'RUB',
                 JSON.stringify([
-                    { label: 'Оплата доступа', amount: 490000, isTest: true },
+                    { label: 'Оплата доступа', amount: 504700, isTest: true },
                 ])
             );
         }
