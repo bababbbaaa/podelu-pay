@@ -16,22 +16,6 @@ dotenv.config();
     const bot = new TelegramBot(token, { polling: true });
     await client.connect();
 
-    bot.getUpdates({});
-
-    // const getInviteLink = async () => {
-    //     const result = await client.invoke(
-    //         new Api.messages.ExportChatInvite({
-    //             peer: -1001866133787,
-    //             legacyRevokePermanent: false,
-    //             requestNeeded: false,
-    //             expireDate: 0,
-    //             usageLimit: 1,
-    //             title: 'Ссылка на вступление в чат',
-    //         })
-    //     );
-    //     return result;
-    // };
-
     bot.on('message', async (msg) => {
         if (msg.text === '/start') {
             bot.sendInvoice(
