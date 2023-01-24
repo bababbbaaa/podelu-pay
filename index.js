@@ -31,16 +31,16 @@ dotenv.config();
     const bot = new TelegramBot(token, { polling: true });
 
     const notificationChatId = -1001899025139;
-    const chatProlongPrice = 2900;
+    const chatProlongPrice = 2700;
     const chatPrice = 4900;
     const yearProlongPrice = 29000;
 
     await client.connect();
 
-    const getUser = async () => {
+    const getUser = async (id) => {
         const result = await client.invoke(
             new Api.users.GetFullUser({
-                id: 147796272,
+                id,
             })
         );
         return result;
@@ -87,11 +87,11 @@ dotenv.config();
                 JSON.stringify([
                     {
                         label: 'Доступ в Чат по делу',
-                        amount: 4900 * 100,
+                        amount: chatPrice * 100,
                     },
                     {
                         label: 'Комиссия платёжного сервиса',
-                        amount: 4900 * 0.03 * 100,
+                        amount: chatPrice * 0.03 * 100,
                     },
                 ])
             );
@@ -161,7 +161,8 @@ dotenv.config();
     };
 
     bot.on('successful_payment', async (message) => {
-        const result = await getUser(message.from.id);
+        const payload = JSON.parse(message.successful_payment?.invoice_payload);
+        const result = await getUser(payload.from);
 
         const nick = result?.users[0]?.username
             ? `@${result?.users[0]?.username}`
