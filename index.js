@@ -47,7 +47,7 @@ dotenv.config();
     };
 
     bot.on('message', async (msg) => {
-        if (msg.text === '/prolong') {
+        if (msg.text === 'Продлить') {
             bot.sendInvoice(
                 msg.chat.id,
                 'Чат по делу',
@@ -76,14 +76,14 @@ dotenv.config();
             );
         }
 
-        if (msg.text === '/join') {
+        if (msg.text === 'Вступить в чат') {
             bot.sendMessage(
                 msg.chat.id,
                 'Для оплаты доступа в чат необходимо связаться с @nicholasitnikov'
             );
         }
 
-        if (msg.text === '/prolong 22c585f75c24d937f90165dc341b1dbd') {
+        if (msg.text === 'Продлить 22c585f75c24d937f90165dc341b1dbd') {
             // отзыв
             bot.sendInvoice(
                 msg.chat.id,
@@ -105,7 +105,7 @@ dotenv.config();
             );
         }
 
-        if (msg.text === '/year') {
+        if (msg.text === 'Оплатить год') {
             // год
             bot.sendInvoice(
                 msg.chat.id,
