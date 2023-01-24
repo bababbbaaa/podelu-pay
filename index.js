@@ -31,7 +31,7 @@ dotenv.config();
     const bot = new TelegramBot(token, { polling: true });
 
     const notificationChatId = -1001899025139;
-    const chatProlongPrice = 50;
+    const chatProlongPrice = 2900;
     const chatPrice = 4900;
     const yearProlongPrice = 29000;
 
@@ -77,9 +77,23 @@ dotenv.config();
         }
 
         if (msg.text === 'Вступить в чат') {
-            bot.sendMessage(
+            bot.sendInvoice(
                 msg.chat.id,
-                'Для оплаты доступа в чат необходимо связаться с @nicholasitnikov'
+                'Чат по делу',
+                'Оплата доступа в Чат по делу',
+                JSON.stringify({ from: msg.from.id }),
+                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+                'RUB',
+                JSON.stringify([
+                    {
+                        label: 'Доступ в Чат по делу',
+                        amount: 4900 * 100,
+                    },
+                    {
+                        label: 'Комиссия платёжного сервиса',
+                        amount: 4900 * 0.03 * 100,
+                    },
+                ])
             );
         }
 
@@ -132,14 +146,33 @@ dotenv.config();
         bot.answerPreCheckoutQuery(query.id, true);
     });
 
+    const getInviteLink = async () => {
+        const result = await client.invoke(
+            new Api.messages.ExportChatInvite({
+                peer: -1001866133787,
+                legacyRevokePermanent: false,
+                requestNeeded: false,
+                expireDate: 0,
+                usageLimit: 1,
+                title: 'Ссылка на вступление в чат',
+            })
+        );
+        return result;
+    };
+
     bot.on('successful_payment', async (message) => {
         const result = await getUser(message.from.id);
+
+        const nick = result?.users[0]?.username
+            ? `@${result?.users[0]?.username}`
+            : result?.users[0]?.id;
+
         try {
             bot.sendMessage(
                 notificationChatId,
-                `Пришло ${message.successful_payment.total_amount / 100}₽ от @${
-                    result?.users[0]?.username
-                } (продление доступа)`
+                `Пришло ${
+                    message.successful_payment.total_amount / 100
+                }₽ от ${nick}`
             );
         } catch (error) {}
 
@@ -154,8 +187,14 @@ dotenv.config();
             );
         } catch (error) {}
 
-        const messageText =
-            'Благодарим за оплату. Доступ в чат продлён на месяц 🤝';
-        bot.sendMessage(message.chat.id, messageText);
+        if (message.successful_payment.total_amount / 100 > 3500) {
+            const messageText =
+                'Благодарим за оплату. Чтобы получить получить доступ в чат напишите @nicholasitnikov 🤝';
+            bot.sendMessage(message.chat.id, messageText);
+        } else {
+            const messageText =
+                'Благодарим за оплату. Доступ в чат продлён на месяц 🤝';
+            bot.sendMessage(message.chat.id, messageText);
+        }
     });
 })();
