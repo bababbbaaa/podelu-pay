@@ -37,15 +37,6 @@ dotenv.config();
 
     await client.connect();
 
-    const getUser = async (id) => {
-        const result = await client.invoke(
-            new Api.users.GetFullUser({
-                id,
-            })
-        );
-        return result;
-    };
-
     bot.on('message', async (msg) => {
         if (msg.text === 'Продлить') {
             bot.sendInvoice(
@@ -74,6 +65,7 @@ dotenv.config();
                 `Добро пожаловать в платёжный бот Чата по делу. 👋 \n\nЗдесь вы можете: \n\n🔸 Получить доступ в чат (напишите «Вступить в чат»)\n🔸 Продлить доступ в чат (напишите «Продлить»)\n🔸 Продлить доступ в чат на год (напишите «Продлить на год»)\n\nПо всем вопросам вы можете обращаться к @nicholasitnikov
                 `
             );
+            client.getDialogs();
         }
 
         if (msg.text === 'Вступить в чат') {
@@ -146,27 +138,29 @@ dotenv.config();
         bot.answerPreCheckoutQuery(query.id, true);
     });
 
-    const getInviteLink = async () => {
-        const result = await client.invoke(
-            new Api.messages.ExportChatInvite({
-                peer: -1001866133787,
-                legacyRevokePermanent: false,
-                requestNeeded: false,
-                expireDate: 0,
-                usageLimit: 1,
-                title: 'Ссылка на вступление в чат',
-            })
-        );
-        return result;
-    };
+    // const getInviteLink = async () => {
+    //     const result = await client.invoke(
+    //         new Api.messages.ExportChatInvite({
+    //             peer: -1001866133787,
+    //             legacyRevokePermanent: false,
+    //             requestNeeded: false,
+    //             expireDate: 0,
+    //             usageLimit: 1,
+    //             title: 'Ссылка на вступление в чат',
+    //         })
+    //     );
+    //     return result;
+    // };
 
     bot.on('successful_payment', async (message) => {
-        const payload = JSON.parse(message.successful_payment?.invoice_payload);
-        const result = await getUser(payload.from);
+        const payload = JSON.parse(
+            message?.successful_payment?.invoice_payload
+        );
+        const result = await bot.getChatMember(message.chat.id, payload.from);
 
-        const nick = result?.users[0]?.username
-            ? `@${result?.users[0]?.username}`
-            : result?.users[0]?.id;
+        const nick = result.user.username
+            ? `@${result.user.username}`
+            : result.user.id;
 
         try {
             bot.sendMessage(
