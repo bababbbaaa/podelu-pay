@@ -31,8 +31,10 @@ dotenv.config();
     const bot = new TelegramBot(token, { polling: true });
 
     const notificationChatId = -1001899025139;
-    const chatProlongPrice = 2700;
+    const podeluChatId = -1001866133787;
+    const chatProlongPrice = 2900;
     const chatPrice = 4900;
+    const halfYearProlongPrice = 14500;
     const yearProlongPrice = 29000;
 
     await client.connect();
@@ -111,6 +113,28 @@ dotenv.config();
             );
         }
 
+        if (msg.text === 'Продлить на полгода') {
+            // пол года
+            bot.sendInvoice(
+                msg.chat.id,
+                'Чат по делу',
+                'Продление доступа на полгода',
+                JSON.stringify({ from: msg.from.id }),
+                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+                'RUB',
+                JSON.stringify([
+                    {
+                        label: 'Продление доступа на полгода',
+                        amount: halfYearProlongPrice * 100,
+                    },
+                    {
+                        label: 'Комиссия платёжного сервиса',
+                        amount: halfYearProlongPrice * 0.03 * 100,
+                    },
+                ])
+            );
+        }
+
         if (msg.text === 'Продлить на год') {
             // год
             bot.sendInvoice(
@@ -165,6 +189,12 @@ dotenv.config();
         try {
             bot.sendMessage(
                 notificationChatId,
+                `Пришло ${
+                    message.successful_payment.total_amount / 100
+                }₽ от ${nick}`
+            );
+            bot.sendMessage(
+                podeluChatId,
                 `Пришло ${
                     message.successful_payment.total_amount / 100
                 }₽ от ${nick}`
