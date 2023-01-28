@@ -61,6 +61,23 @@ dotenv.config();
             );
         }
 
+        if (msg.text === 'Test') {
+            bot.sendInvoice(
+                msg.chat.id,
+                'Чат по делу',
+                'Продление доступа Чата по делу',
+                JSON.stringify({ from: msg.from.id }),
+                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+                'RUB',
+                JSON.stringify([
+                    {
+                        label: 'Оплата доступа',
+                        amount: 30 * 100,
+                    },
+                ])
+            );
+        }
+
         if (msg.text === '/start') {
             bot.sendMessage(
                 msg.chat.id,
@@ -210,7 +227,9 @@ dotenv.config();
                     created_at: Timestamp.fromDate(new Date()),
                 }
             );
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
 
         if (message.successful_payment.total_amount / 100 > 3500) {
             const messageText =
