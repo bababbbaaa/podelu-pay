@@ -205,8 +205,8 @@ dotenv.config();
             await setDoc(
                 doc(getFirestore(firebaseApp), 'payments', crypto.randomUUID()),
                 {
-                    from: message.from.id,
-                    price: message.successful_payment.total_amount / 100,
+                    from: payload?.from,
+                    price: message?.successful_payment?.total_amount / 100,
                     created_at: Timestamp.fromDate(new Date()),
                 }
             );
