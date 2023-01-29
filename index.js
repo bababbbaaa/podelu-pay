@@ -2,21 +2,20 @@ const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv');
 const { Api, TelegramClient } = require('telegram');
 const { StringSession } = require('telegram/sessions');
+const admin = require('firebase-admin');
+const serviceAccount = require('./podelu-309ea-firebase-adminsdk-wahqz-e6251365fb.json');
 
 const { initializeApp } = require('firebase/app');
 require('firebase/firestore');
-const { doc, getFirestore, setDoc, Timestamp } = require('firebase/firestore');
+const { doc, getFirestore, setDoc } = require('firebase/firestore');
 const crypto = require('crypto');
 
-const firebaseApp = initializeApp({
-    apiKey: 'AIzaSyDln11HXwFB7pIYD_ySyIl_j1RWnurxJ34',
-    authDomain: 'podelu-309ea.firebaseapp.com',
-    projectId: 'podelu-309ea',
-    storageBucket: 'podelu-309ea.appspot.com',
-    messagingSenderId: '444086589170',
-    appId: '1:444086589170:web:04bd8a745bf313cd68226b',
-    measurementId: 'G-VZ52GHSV6T',
+const app = admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://podelu-309ea.firebaseio.com',
 });
+
+const db = admin.firestore(app);
 
 dotenv.config();
 
@@ -63,18 +62,15 @@ dotenv.config();
 
         if (msg.text === 'Test') {
             try {
-                await setDoc(
-                    doc(
-                        getFirestore(firebaseApp),
-                        'payments',
-                        crypto.randomUUID()
-                    ),
-                    {
+                db.collection('payments')
+                    .doc(crypto.randomUUID())
+                    .set({
                         from: '147796272',
                         price: 100,
-                        created_at: Timestamp.fromDate(new Date()),
-                    }
-                );
+                        created_at: admin.firestore.Timestamp.fromDate(
+                            new Date()
+                        ),
+                    });
             } catch (error) {
                 console.log(error);
             }
@@ -221,18 +217,13 @@ dotenv.config();
         } catch (error) {}
 
         try {
-            console.log(
-                payload?.from,
-                message?.successful_payment?.total_amount / 100
-            );
-            await setDoc(
-                doc(getFirestore(firebaseApp), 'payments', crypto.randomUUID()),
-                {
+            db.collection('payments')
+                .doc(crypto.randomUUID())
+                .set({
                     from: payload?.from,
                     price: message?.successful_payment?.total_amount / 100,
-                    created_at: Timestamp.fromDate(new Date()),
-                }
-            );
+                    created_at: admin.firestore.Timestamp.fromDate(new Date()),
+                });
         } catch (error) {
             console.log(error);
         }
