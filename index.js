@@ -62,20 +62,22 @@ dotenv.config();
         }
 
         if (msg.text === 'Test') {
-            bot.sendInvoice(
-                msg.chat.id,
-                'Чат по делу',
-                'Продление доступа Чата по делу',
-                JSON.stringify({ from: msg.from.id }),
-                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
-                'RUB',
-                JSON.stringify([
+            try {
+                await setDoc(
+                    doc(
+                        getFirestore(firebaseApp),
+                        'payments',
+                        crypto.randomUUID()
+                    ),
                     {
-                        label: 'Оплата доступа',
-                        amount: 30 * 100,
-                    },
-                ])
-            );
+                        from: 147796272,
+                        price: 100,
+                        created_at: Timestamp.fromDate(new Date()),
+                    }
+                );
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         if (msg.text === '/start') {
