@@ -70,7 +70,7 @@ dotenv.config();
                         crypto.randomUUID()
                     ),
                     {
-                        from: 147796272,
+                        from: '147796272',
                         price: 100,
                         created_at: Timestamp.fromDate(new Date()),
                     }
@@ -221,6 +221,10 @@ dotenv.config();
         } catch (error) {}
 
         try {
+            console.log(
+                payload?.from,
+                message?.successful_payment?.total_amount / 100
+            );
             await setDoc(
                 doc(getFirestore(firebaseApp), 'payments', crypto.randomUUID()),
                 {
