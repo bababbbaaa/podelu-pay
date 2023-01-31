@@ -32,7 +32,7 @@ dotenv.config();
     const notificationChatId = -1001899025139;
     const podeluChatId = -1001866133787;
     const chatProlongPrice = 2900;
-    const chatPrice = 4900;
+    const chatPrice = 2990;
     const halfYearProlongPrice = 14500;
     const yearProlongPrice = 29000;
 
@@ -228,7 +228,7 @@ dotenv.config();
             console.log(error);
         }
 
-        if (message.successful_payment.total_amount / 100 > 3500) {
+        if (message.successful_payment.total_amount / 100 > 2900) {
             const messageText =
                 'Благодарим за оплату. Чтобы получить получить доступ в чат напишите @nicholasitnikov 🤝';
             bot.sendMessage(message.chat.id, messageText);
