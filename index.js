@@ -169,6 +169,19 @@ dotenv.config();
             );
         }
 
+        if (msg.text === 'fake') {
+            bot.sendMessage(
+                notificationChatId,
+                `Пришло ${2990}₽ от ${'@patrix777'}`
+            );
+            bot.sendMessage(podeluChatId, `Пришло ${2990}₽ от ${'@patrix777'}`);
+            bot.sendMessage(
+                notificationChatId,
+                `Пришло ${2990}₽ от ${'@NikaFA22'}`
+            );
+            bot.sendMessage(podeluChatId, `Пришло ${2990}₽ от ${'@NikaFA22'}`);
+        }
+
         if (msg.text === 'Продлить на год') {
             // год
             bot.sendInvoice(
