@@ -107,6 +107,26 @@ dotenv.config();
             client.getDialogs();
         }
 
+        if (msg.text === '/test') {
+            bot.sendMessage(
+                msg.chat.id,
+                `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
+                \n\nДобавление в чат происходит на следующие утро
+                `,
+                {
+                    reply_markup: JSON.stringify({
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: 'Подписаться',
+                                },
+                            ],
+                        ],
+                    }),
+                }
+            );
+        }
+
         if (msg.text === 'Подписаться') {
             bot.sendMessage(msg.chat.id, '');
         }
