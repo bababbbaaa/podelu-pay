@@ -79,7 +79,7 @@ dotenv.config();
         if (msg.text === 'testtest') {
             bot.sendMessage(
                 msg.chat.id,
-                `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&shp_id=${msg.from.id}`
+                `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&Description=${msg.from.id}&Shp_telegram=${msg.from.id}`
             );
         }
 
