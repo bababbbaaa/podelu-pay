@@ -118,7 +118,8 @@ dotenv.config();
                         inline_keyboard: [
                             [
                                 {
-                                    text: 'Подписаться',
+                                    text: `Share This Bot to Your Friends`,
+                                    url: `https://vk.com`,
                                 },
                             ],
                         ],
