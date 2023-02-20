@@ -96,7 +96,7 @@ dotenv.config();
                                 {
                                     text: 'Подписаться',
                                     web_app: {
-                                        url: `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&shp_id=${msg.from.id}`,
+                                        url: `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&Shp_telegram=${msg.from.id}`,
                                     },
                                 },
                             ],
