@@ -176,12 +176,11 @@ dotenv.config();
             );
         }
 
-        if (msg.text.includes === 'fake ') {
-            bot.sendMessage(
-                notificationChatId,
-                `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
-            );
-            bot.sendMessage(podeluChatId, `Пришло ${2990}₽ от ${'@patrix777'}`);
+        if (msg.text === 'id') {
+            bot.sendMessage(msg.chat.id, msg.chat.id);
+        }
+
+        if (msg.text.includes('fake ')) {
             bot.sendMessage(
                 notificationChatId,
                 `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
