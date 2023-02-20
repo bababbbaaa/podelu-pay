@@ -214,9 +214,9 @@ dotenv.config();
         }
     });
 
-    bot.on('pre_checkout_query', (query) => {
-        bot.answerPreCheckoutQuery(query.id, true);
-    });
+    // bot.on('pre_checkout_query', (query) => {
+    //     bot.answerPreCheckoutQuery(query.id, true);
+    // });
 
     // const getInviteLink = async () => {
     //     const result = await client.invoke(
