@@ -176,17 +176,20 @@ dotenv.config();
             );
         }
 
-        if (msg.text === 'fake') {
+        if (msg.text.includes === 'fake ') {
             bot.sendMessage(
                 notificationChatId,
-                `Пришло ${2990}₽ от ${'@patrix777'}`
+                `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
             );
             bot.sendMessage(podeluChatId, `Пришло ${2990}₽ от ${'@patrix777'}`);
             bot.sendMessage(
                 notificationChatId,
-                `Пришло ${2990}₽ от ${'@NikaFA22'}`
+                `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
             );
-            bot.sendMessage(podeluChatId, `Пришло ${2990}₽ от ${'@NikaFA22'}`);
+            bot.sendMessage(
+                podeluChatId,
+                `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
+            );
         }
 
         if (msg.text === 'Продлить на год') {
