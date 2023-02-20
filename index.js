@@ -76,6 +76,13 @@ dotenv.config();
             }
         }
 
+        if (msg.text === 'testtest') {
+            bot.sendMessage(
+                msg.chat.id,
+                `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&shp_id=${msg.from.id}`
+            );
+        }
+
         if (msg.text === '/start') {
             bot.sendMessage(
                 msg.chat.id,
