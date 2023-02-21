@@ -39,169 +39,49 @@ dotenv.config();
     await client.connect();
 
     bot.on('message', async (msg) => {
-        if (msg.text === 'Продлить') {
-            bot.sendInvoice(
-                msg.chat.id,
-                'Чат по делу',
-                'Продление доступа Чата по делу',
-                JSON.stringify({ from: msg.from.id }),
-                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
-                'RUB',
-                JSON.stringify([
-                    {
-                        label: 'Оплата доступа',
-                        amount: chatProlongPrice * 100,
-                    },
-                    {
-                        label: 'Комиссия платёжного сервиса',
-                        amount: chatProlongPrice * 0.03 * 100,
-                    },
-                ])
-            );
-        }
+        // if (msg.text === 'Продлить') {
+        //     bot.sendInvoice(
+        //         msg.chat.id,
+        //         'Чат по делу',
+        //         'Продление доступа Чата по делу',
+        //         JSON.stringify({ from: msg.from.id }),
+        //         process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+        //         'RUB',
+        //         JSON.stringify([
+        //             {
+        //                 label: 'Оплата доступа',
+        //                 amount: chatProlongPrice * 100,
+        //             },
+        //             {
+        //                 label: 'Комиссия платёжного сервиса',
+        //                 amount: chatProlongPrice * 0.03 * 100,
+        //             },
+        //         ])
+        //     );
+        // }
 
-        if (msg.text === 'Test') {
-            try {
-                db.collection('payments')
-                    .doc(crypto.randomUUID())
-                    .set({
-                        from: '147796272',
-                        price: 100,
-                        created_at: admin.firestore.Timestamp.fromDate(
-                            new Date()
-                        ),
-                    });
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        // if (msg.text === 'Test') {
+        //     try {
+        //         db.collection('payments')
+        //             .doc(crypto.randomUUID())
+        //             .set({
+        //                 from: '147796272',
+        //                 price: 100,
+        //                 created_at: admin.firestore.Timestamp.fromDate(
+        //                     new Date()
+        //                 ),
+        //             });
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
 
-        if (msg.text === 'testtest') {
-            bot.sendMessage(
-                msg.chat.id,
-                `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&Description=${msg.from.id}&Shp_telegram=${msg.from.id}`
-            );
-        }
-
-        if (msg.text === '/start') {
-            bot.sendMessage(
-                msg.chat.id,
-                `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
-                \n\nДобавление в чат происходит на следующие утро
-                `,
-                {
-                    reply_markup: JSON.stringify({
-                        inline_keyboard: [
-                            [
-                                {
-                                    text: 'Подписаться',
-                                    web_app: {
-                                        url: `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&Description=${msg.from.id}&Shp_telegram=${msg.from.id}`,
-                                    },
-                                },
-                            ],
-                        ],
-                    }),
-                }
-            );
-            client.getDialogs();
-        }
-
-        if (msg.text === '/test') {
-            bot.sendMessage(
-                msg.chat.id,
-                `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
-                \n\nДобавление в чат происходит на следующие утро
-                `,
-                {
-                    reply_markup: JSON.stringify({
-                        inline_keyboard: [
-                            [
-                                {
-                                    text: `Share This Bot to Your Friends`,
-                                    url: `https://email.podelu.pro?id=${
-                                        msg.from.id
-                                    }&username=${msg.from.username || 'not'}`,
-                                },
-                            ],
-                        ],
-                    }),
-                }
-            );
-        }
-
-        if (msg.text === 'Подписаться') {
-            bot.sendMessage(msg.chat.id, '');
-        }
-
-        if (msg.text === 'Вступить в чат') {
-            bot.sendInvoice(
-                msg.chat.id,
-                'Чат по делу',
-                'Оплата доступа в Чат по делу',
-                JSON.stringify({ from: msg.from.id }),
-                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
-                'RUB',
-                JSON.stringify([
-                    {
-                        label: 'Доступ в Чат по делу',
-                        amount: chatPrice * 100,
-                    },
-                    {
-                        label: 'Комиссия платёжного сервиса',
-                        amount: chatPrice * 0.03 * 100,
-                    },
-                ])
-            );
-        }
-
-        if (msg.text === 'Продлить 22c585f75c24d937f90165dc341b1dbd') {
-            // отзыв
-            bot.sendInvoice(
-                msg.chat.id,
-                'Чат по делу',
-                'Продление доступа со скидкой за отзыв',
-                JSON.stringify({ from: msg.from.id }),
-                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
-                'RUB',
-                JSON.stringify([
-                    {
-                        label: 'Продление доступа',
-                        amount: 1450 * 100,
-                    },
-                    {
-                        label: 'Комиссия платёжного сервиса',
-                        amount: 1450 * 0.03 * 100,
-                    },
-                ])
-            );
-        }
-
-        if (msg.text === 'Продлить на полгода') {
-            // пол года
-            bot.sendInvoice(
-                msg.chat.id,
-                'Чат по делу',
-                'Продление доступа на полгода',
-                JSON.stringify({ from: msg.from.id }),
-                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
-                'RUB',
-                JSON.stringify([
-                    {
-                        label: 'Продление доступа на полгода',
-                        amount: halfYearProlongPrice * 100,
-                    },
-                    {
-                        label: 'Комиссия платёжного сервиса',
-                        amount: halfYearProlongPrice * 0.03 * 100,
-                    },
-                ])
-            );
-        }
-
-        if (msg.text === 'id') {
-            bot.sendMessage(msg.chat.id, msg.chat.id);
-        }
+        // if (msg.text === 'testtest') {
+        //     bot.sendMessage(
+        //         msg.chat.id,
+        //         `https://auth.robokassa.ru/RecurringSubscriptionPage/Subscription/Subscribe?SubscriptionId=e543eb26-7a0f-473d-afbb-b9aa84a80afe&Description=${msg.from.id}&Shp_telegram=${msg.from.id}`
+        //     );
+        // }
 
         if (msg.text.includes('fake ')) {
             bot.sendMessage(
@@ -212,29 +92,99 @@ dotenv.config();
                 podeluChatId,
                 `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
             );
+        } else {
+            bot.sendMessage(
+                msg.chat.id,
+                `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
+                \n\nДобавление в чат происходит на следующие утро
+                `,
+                {
+                    reply_markup: JSON.stringify({
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: `Подписаться`,
+                                    url: `https://email.podelu.pro?id=${
+                                        msg.from.id
+                                    }&username=${msg.from.username || 'not'}`,
+                                },
+                            ],
+                        ],
+                    }),
+                }
+            );
+            client.getDialogs();
         }
 
-        if (msg.text === 'Продлить на год') {
-            // год
-            bot.sendInvoice(
-                msg.chat.id,
-                'Чат по делу',
-                'Продление доступа на год',
-                JSON.stringify({ from: msg.from.id }),
-                process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
-                'RUB',
-                JSON.stringify([
-                    {
-                        label: 'Продление доступа на год',
-                        amount: yearProlongPrice * 100,
-                    },
-                    {
-                        label: 'Комиссия платёжного сервиса',
-                        amount: yearProlongPrice * 0.03 * 100,
-                    },
-                ])
-            );
-        }
+        // if (msg.text === 'Продлить 22c585f75c24d937f90165dc341b1dbd') {
+        //     // отзыв
+        //     bot.sendInvoice(
+        //         msg.chat.id,
+        //         'Чат по делу',
+        //         'Продление доступа со скидкой за отзыв',
+        //         JSON.stringify({ from: msg.from.id }),
+        //         process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+        //         'RUB',
+        //         JSON.stringify([
+        //             {
+        //                 label: 'Продление доступа',
+        //                 amount: 1450 * 100,
+        //             },
+        //             {
+        //                 label: 'Комиссия платёжного сервиса',
+        //                 amount: 1450 * 0.03 * 100,
+        //             },
+        //         ])
+        //     );
+        // }
+
+        // if (msg.text === 'Продлить на полгода') {
+        //     // пол года
+        //     bot.sendInvoice(
+        //         msg.chat.id,
+        //         'Чат по делу',
+        //         'Продление доступа на полгода',
+        //         JSON.stringify({ from: msg.from.id }),
+        //         process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+        //         'RUB',
+        //         JSON.stringify([
+        //             {
+        //                 label: 'Продление доступа на полгода',
+        //                 amount: halfYearProlongPrice * 100,
+        //             },
+        //             {
+        //                 label: 'Комиссия платёжного сервиса',
+        //                 amount: halfYearProlongPrice * 0.03 * 100,
+        //             },
+        //         ])
+        //     );
+        // }
+
+        // if (msg.text === 'id') {
+        //     bot.sendMessage(msg.chat.id, msg.chat.id);
+        // }
+
+        // if (msg.text === 'Продлить на год') {
+        //     // год
+        //     bot.sendInvoice(
+        //         msg.chat.id,
+        //         'Чат по делу',
+        //         'Продление доступа на год',
+        //         JSON.stringify({ from: msg.from.id }),
+        //         process.env.ROBOKASSA_PAYMENT_ACCESS_TOKEN,
+        //         'RUB',
+        //         JSON.stringify([
+        //             {
+        //                 label: 'Продление доступа на год',
+        //                 amount: yearProlongPrice * 100,
+        //             },
+        //             {
+        //                 label: 'Комиссия платёжного сервиса',
+        //                 amount: yearProlongPrice * 0.03 * 100,
+        //             },
+        //         ])
+        //     );
+        // }
     });
 
     // bot.on('pre_checkout_query', (query) => {
@@ -255,51 +205,51 @@ dotenv.config();
     //     return result;
     // };
 
-    bot.on('successful_payment', async (message) => {
-        const payload = JSON.parse(
-            message?.successful_payment?.invoice_payload
-        );
-        const result = await bot.getChatMember(message.chat.id, payload.from);
+    // bot.on('successful_payment', async (message) => {
+    //     const payload = JSON.parse(
+    //         message?.successful_payment?.invoice_payload
+    //     );
+    //     const result = await bot.getChatMember(message.chat.id, payload.from);
 
-        const nick = result.user.username
-            ? `@${result.user.username}`
-            : result.user.id;
+    //     const nick = result.user.username
+    //         ? `@${result.user.username}`
+    //         : result.user.id;
 
-        try {
-            bot.sendMessage(
-                notificationChatId,
-                `Пришло ${
-                    message.successful_payment.total_amount / 100
-                }₽ от ${nick}`
-            );
-            bot.sendMessage(
-                podeluChatId,
-                `Пришло ${
-                    message.successful_payment.total_amount / 100
-                }₽ от ${nick}`
-            );
-        } catch (error) {}
+    //     try {
+    //         bot.sendMessage(
+    //             notificationChatId,
+    //             `Пришло ${
+    //                 message.successful_payment.total_amount / 100
+    //             }₽ от ${nick}`
+    //         );
+    //         bot.sendMessage(
+    //             podeluChatId,
+    //             `Пришло ${
+    //                 message.successful_payment.total_amount / 100
+    //             }₽ от ${nick}`
+    //         );
+    //     } catch (error) {}
 
-        try {
-            db.collection('payments')
-                .doc(crypto.randomUUID())
-                .set({
-                    from: payload?.from,
-                    price: message?.successful_payment?.total_amount / 100,
-                    created_at: admin.firestore.Timestamp.fromDate(new Date()),
-                });
-        } catch (error) {
-            console.log(error);
-        }
+    //     try {
+    //         db.collection('payments')
+    //             .doc(crypto.randomUUID())
+    //             .set({
+    //                 from: payload?.from,
+    //                 price: message?.successful_payment?.total_amount / 100,
+    //                 created_at: admin.firestore.Timestamp.fromDate(new Date()),
+    //             });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
 
-        if (message.successful_payment.total_amount / 100 > 2900) {
-            const messageText =
-                'Благодарим за оплату. Чтобы получить получить доступ в чат напишите @nicholasitnikov 🤝';
-            bot.sendMessage(message.chat.id, messageText);
-        } else {
-            const messageText =
-                'Благодарим за оплату. Доступ в чат продлён на месяц 🤝';
-            bot.sendMessage(message.chat.id, messageText);
-        }
-    });
+    //     if (message.successful_payment.total_amount / 100 > 2900) {
+    //         const messageText =
+    //             'Благодарим за оплату. Чтобы получить получить доступ в чат напишите @nicholasitnikov 🤝';
+    //         bot.sendMessage(message.chat.id, messageText);
+    //     } else {
+    //         const messageText =
+    //             'Благодарим за оплату. Доступ в чат продлён на месяц 🤝';
+    //         bot.sendMessage(message.chat.id, messageText);
+    //     }
+    // });
 })();
