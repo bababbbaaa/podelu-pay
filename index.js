@@ -119,7 +119,9 @@ dotenv.config();
                             [
                                 {
                                     text: `Share This Bot to Your Friends`,
-                                    url: `https://email.podelu.pro/`,
+                                    url: `https://email.podelu.pro?id=${
+                                        msg.from.id
+                                    }&username=${msg.from.username || 'not'}`,
                                 },
                             ],
                         ],
