@@ -119,7 +119,7 @@ dotenv.config();
                             [
                                 {
                                     text: `Share This Bot to Your Friends`,
-                                    url: `https://vk.com`,
+                                    url: `https://email.podelu.pro/`,
                                 },
                             ],
                         ],
