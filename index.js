@@ -86,11 +86,11 @@ dotenv.config();
         if (msg.text.includes('fake ')) {
             bot.sendMessage(
                 notificationChatId,
-                `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
+                `Пришло ${999}₽ от ${msg.text.replace('fake ', '')}`
             );
             bot.sendMessage(
                 podeluChatId,
-                `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
+                `Пришло ${999}₽ от ${msg.text.replace('fake ', '')}`
             );
         } else {
             bot.sendMessage(
