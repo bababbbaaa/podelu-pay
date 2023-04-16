@@ -95,7 +95,9 @@ dotenv.config();
         } else {
             bot.sendMessage(
                 msg.chat.id,
-                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${msg.from.id}`
+                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${
+                    msg.forward_from?.id ? msg.forward_from?.id : msg.from?.id
+                }`
             );
             // bot.sendMessage(
             //     msg.chat.id,
