@@ -96,14 +96,18 @@ dotenv.config();
             // client.invoke({});
 
             const result = await client.invoke(
-                new Api.messages.GetMessages({
-                    id: [msg.message_id],
+                new Api.messages.GetDialogs({
+                    excludePinned: true,
+                    offsetPeer: msg.forward_from?.id
+                        ? msg.forward_from?.id
+                        : msg.from.id,
+                    limit: 1,
                 })
             );
 
             bot.sendMessage(
                 msg.chat.id,
-                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${result.users[0].id}&telegramhash${result.users[0].accessHash}`
+                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${result.users[0].id}&telegramhash=${result.users[0].accessHash}`
             );
 
             // bot.sendMessage(
