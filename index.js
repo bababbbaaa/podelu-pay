@@ -95,19 +95,25 @@ dotenv.config();
         } else {
             // client.invoke({});
 
+            const id = msg.forward_from?.id
+                ? msg.forward_from?.id
+                : msg.from.id;
+
             const result = await client.invoke(
                 new Api.messages.GetDialogs({
                     excludePinned: true,
-                    offsetPeer: msg.forward_from?.id
-                        ? msg.forward_from?.id
-                        : msg.from.id,
+                    offsetPeer: id,
                     limit: 1,
                 })
             );
 
+            const currentUser = result.users.find(
+                (u) => parseInt(u.id) === parseInt(id)
+            );
+
             bot.sendMessage(
                 msg.chat.id,
-                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${result.users[0].id}&telegramhash=${result.users[0].accessHash}`
+                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${currentUser.id}&telegramhash=${currentUser.accessHash}`
             );
 
             // bot.sendMessage(
