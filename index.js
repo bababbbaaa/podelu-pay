@@ -93,28 +93,28 @@ dotenv.config();
                 `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
             );
         } else {
-            return;
-            bot.sendMessage(
-                msg.chat.id,
-                `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
-                \n\nДобавление в чат происходит на следующие утро
-                `,
-                {
-                    reply_markup: JSON.stringify({
-                        inline_keyboard: [
-                            [
-                                {
-                                    text: `Подписаться`,
-                                    url: `https://email.podelu.pro?id=${
-                                        msg.from.id
-                                    }&username=${msg.from.username || 'not'}`,
-                                },
-                            ],
-                        ],
-                    }),
-                }
-            );
-            client.getDialogs();
+            bot.sendMessage(msg.from.id);
+            // bot.sendMessage(
+            //     msg.chat.id,
+            //     `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
+            //     \n\nДобавление в чат происходит на следующие утро
+            //     `,
+            //     {
+            //         reply_markup: JSON.stringify({
+            //             inline_keyboard: [
+            //                 [
+            //                     {
+            //                         text: `Подписаться`,
+            //                         url: `https://email.podelu.pro?id=${
+            //                             msg.from.id
+            //                         }&username=${msg.from.username || 'not'}`,
+            //                     },
+            //                 ],
+            //             ],
+            //         }),
+            //     }
+            // );
+            // client.getDialogs();
         }
 
         // if (msg.text === 'Продлить 22c585f75c24d937f90165dc341b1dbd') {
