@@ -97,11 +97,7 @@ dotenv.config();
 
             const result = await client.invoke(
                 new Api.messages.GetMessages({
-                    id: [
-                        msg.forward_from?.id
-                            ? msg.forward_from?.id
-                            : msg.from?.id,
-                    ],
+                    id: [msg.message_id],
                 })
             );
 
