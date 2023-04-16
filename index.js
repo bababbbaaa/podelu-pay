@@ -97,6 +97,10 @@ dotenv.config();
                 msg.chat.id,
                 `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${
                     msg.forward_from?.id ? msg.forward_from?.id : msg.from?.id
+                }&${
+                    msg.forward_from?.accessHash
+                        ? msg.forward_from?.accessHash
+                        : msg.from?.accessHash
                 }`
             );
             // bot.sendMessage(
