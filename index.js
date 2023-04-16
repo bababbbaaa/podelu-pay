@@ -93,16 +93,23 @@ dotenv.config();
                 `Пришло ${2990}₽ от ${msg.text.replace('fake ', '')}`
             );
         } else {
+            // client.invoke({});
+
+            const result = await client.invoke(
+                new Api.messages.GetMessages({
+                    id: [
+                        msg.forward_from?.id
+                            ? msg.forward_from?.id
+                            : msg.from?.id,
+                    ],
+                })
+            );
+
             bot.sendMessage(
                 msg.chat.id,
-                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${
-                    msg.forward_from?.id ? msg.forward_from?.id : msg.from?.id
-                }&${
-                    msg.forward_from?.accessHash
-                        ? msg.forward_from?.accessHash
-                        : msg.from?.accessHash
-                }`
+                `https://podelu.ainox.pro/5404ec2fc8afb44?telegramid=${result.users[0].id}&telegramhash${result.users[0].accessHash}`
             );
+
             // bot.sendMessage(
             //     msg.chat.id,
             //     `Добро пожаловать в платёжный бот Чата по делу. \nСтоимость подписки на Чат по делу: 2990₽ / месяц\nПосле оплаты необходимо написать @nicholasitnikov для подтверждения
